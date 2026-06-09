@@ -1,6 +1,16 @@
-# OctoPrint-ipOnConnect
+# OctoPrint-ClockOnConnect
 
-A simple plugin to send an M117 (Default)/M70 (Optional setting) command to show the connected OctoPrint's IP address information on the printer's display.
+A simple OctoPrint plugin that keeps the printer LCD updated with the current time, including seconds.
+
+By default it sends an `M117` message every second:
+
+    HH:MM:SS
+
+The settings also allow showing the date:
+
+    HH:MM:SS DD.MM.YYYY
+
+The message is centered by padding it to the configured display width. Use `20` for common 20x4 LCDs or `16` for 16x2 LCDs.
 
 ![screenshot](screenshot.jpg)
 
@@ -9,62 +19,24 @@ A simple plugin to send an M117 (Default)/M70 (Optional setting) command to show
 Install via the bundled [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager)
 or manually using this URL:
 
-    https://github.com/jneilliii/OctoPrint-ipOnConnect/archive/master.zip
+    https://github.com/matejalbert/OctoPrint-ClockOnConnect/archive/master.zip
+
+# Settings
+
+- `Start delay`: waits before the first LCD update after startup or reconnect.
+- `Update interval`: how often the clock is refreshed. Use `1` to show live seconds.
+- `Display width`: character width used for centering.
+- `Show date`: adds the current date after the time.
+- `Show message using M70`: uses `M70` instead of `M117` for firmware that supports it.
 
 # Changelog
 
-## [0.2.3] - 2019-10-03
+## [0.1.0] - 2026-06-09
 ### Added
-- Python 3 compatibility.
-
-## [0.2.2] - 2019-04-08
-### Added
-- Optional parameter in settings to enable the use of M70 command instead of M117 for Sailfish firmware thanks to @ohrn.
-
-## [0.2.1] - 2018-11-17
-### Added
-- New `Include Trailing Character` setting to account for some firmware that clips the last character of M117 commands (i.e. ANET E10).
-
-## [0.2.0] - 2018-05-26
-### Added
-- New delay option for checking ip and sending to control panel to resolve cold start issues.
-- Settings interface to set delay option mentioned above.
-- Added ConnectivityChanged event monitoring to also trigger the ip check and display.
-
-### Changed
-- Uses the Connectivity check settings for ip and port to attempt to make connection to those for determining ip address being used.
-
-## [0.1.0] - 2016-09-24
-### Added
-- Initial release.
+- Initial ClockOnConnect release forked from ipOnConnect.
+- Sends centered clock text to the printer display.
+- Optional date display.
 
 ## Get Help
 
 If you experience issues with this plugin or need assistance please use the issue tracker by clicking issues above.
-
-### Additional Plugins
-
-Check out my other plugins [here](https://plugins.octoprint.org/by_author/#jneilliii)
-
-### Sponsors
-- Andreas Lindermayr
-- [@TheTuxKeeper](https://github.com/thetuxkeeper)
-- [@tideline3d](https://github.com/tideline3d/)
-- [SimplyPrint](https://simplyprint.io/)
-- [Andrew Beeman](https://github.com/Kiendeleo)
-- [Calanish](https://github.com/calanish)
-- [Lachlan Bell](https://lachy.io/)
-- [Jonny Bergdahl](https://github.com/bergdahl)
-## Support My Efforts
-I, jneilliii, programmed this plugin for fun and do my best effort to support those that have issues with it, please return the favor and leave me a tip or become a Patron if you find this plugin helpful and want me to continue future development.
-
-[![Patreon](patreon-with-text-new.png)](https://www.patreon.com/jneilliii) [![paypal](paypal-with-text.png)](https://paypal.me/jneilliii)
-
-<small>No paypal.me? Send funds via PayPal to jneilliii&#64;gmail&#46;com</small>
-
-[0.2.3]: https://github.com/jneilliii/OctoPrint-ipOnConnect/tree/0.2.3
-[0.2.2]: https://github.com/jneilliii/OctoPrint-ipOnConnect/tree/0.2.2
-[0.2.1]: https://github.com/jneilliii/OctoPrint-ipOnConnect/tree/0.2.1
-[0.2.0]: https://github.com/jneilliii/OctoPrint-ipOnConnect/tree/0.2.0
-[0.1.0]: https://github.com/jneilliii/OctoPrint-ipOnConnect/tree/0.1.0
-

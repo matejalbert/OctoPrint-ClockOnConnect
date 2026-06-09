@@ -1,0 +1,49 @@
+<h4>ClockOnConnect Settings</h4>
+<form class="form-horizontal" id="settings_plugin_ClockOnConnect_form">
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectDelay">{{ _('Start delay') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="0" step="1" class="input-mini" id="ClockOnConnectDelay" data-bind="value: settings.plugins.ClockOnConnect.delay" />
+				<span class="add-on">sec</span>
+			</span>
+        </div>
+    </div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectUpdateInterval">{{ _('Update interval') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="1" step="1" class="input-mini" id="ClockOnConnectUpdateInterval" data-bind="value: settings.plugins.ClockOnConnect.updateInterval" />
+				<span class="add-on">sec</span>
+			</span>
+        </div>
+    </div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectDisplayWidth">{{ _('Display width') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="8" step="1" class="input-mini" id="ClockOnConnectDisplayWidth" data-bind="value: settings.plugins.ClockOnConnect.displayWidth" />
+				<span class="add-on">chars</span>
+			</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.showDate"/> {{ _('Show date') }}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.useM70"/> {{ _('Show message using M70') }}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectDisplayTime">{{ _('M70 display time') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="1" step="1" class="input-mini" id="ClockOnConnectDisplayTime" data-bind="value: settings.plugins.ClockOnConnect.displayTime" />
+				<span class="add-on">sec</span>
+			</span>
+		</div>
+	</div>
+</form>
