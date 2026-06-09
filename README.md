@@ -2,6 +2,11 @@
 
 A simple OctoPrint plugin that keeps the printer LCD updated with the current time, including seconds.
 
+## Fork Notice
+
+ClockOnConnect is a fork of [OctoPrint-ipOnConnect](https://github.com/jneilliii/OctoPrint-ipOnConnect).
+The original plugin showed OctoPrint's IP address on the printer display; this fork changes the behavior to show a centered clock, with optional date display.
+
 By default it sends an `M117` message every second:
 
     HH:MM:SS
