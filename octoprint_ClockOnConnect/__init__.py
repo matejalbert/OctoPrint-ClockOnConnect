@@ -6,6 +6,7 @@ import threading
 import time
 
 class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
+						octoprint.plugin.AssetPlugin,
 						octoprint.plugin.StartupPlugin,
 						octoprint.plugin.ShutdownPlugin,
 						octoprint.plugin.EventHandlerPlugin,
@@ -20,12 +21,32 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 	
 	def get_settings_defaults(self):
 		return dict(
+			enabled=True,
 			delay=0,
-			showDate=False,
+			updateDuringPrint=True,
 			displayWidth=20,
 			updateInterval=1,
-			useM70=False,
-			displayTime="2"
+			command="M117",
+			displayTime=2,
+			timeFormat="%H:%M:%S",
+			showDate=False,
+			dateFormat="%d.%m.%Y",
+			separator=" ",
+			prefix="",
+			suffix="",
+			alignment="center",
+			uppercase=False
+		)
+
+	def on_settings_save(self, data):
+		octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
+		self._schedule_clock_update(self._get_int_setting("delay", 0), allow_zero=True)
+
+	##~~ AssetPlugin mixin
+
+	def get_assets(self):
+		return dict(
+			js=["js/ClockOnConnect.js"]
 		)
 						
 	##~~ StartupPlugin mixin
@@ -43,13 +64,13 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 	##-- EventHandler mixin 
 	
 	def on_event(self, event, payload):
-		if event in ("Connected", "ConnectivityChanged", "PrintDone", "PrintFailed"):
+		if event in ("Connected", "ConnectivityChanged", "PrintStarted", "PrintDone", "PrintFailed", "PrintCancelled"):
 			self._schedule_clock_update(self._get_int_setting("delay", 0), allow_zero=True)
 			
 	##~~ TemplatePlugin mixin
 
 	def get_template_configs(self):
-		return [dict(type='settings', custom_bindings=False, template='ClockOnConnect_settings.jinja2')]
+		return [dict(type='settings', custom_bindings=True, template='ClockOnConnect_settings.jinja2')]
 
 	##~~ Utility functions
 
@@ -83,9 +104,13 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 	def send_clock(self):
 		if not self._printer or not self._printer.is_operational():
 			return
+		if not self._settings.get_boolean(["enabled"]):
+			return
+		if not self._settings.get_boolean(["updateDuringPrint"]) and self._printer.is_printing():
+			return
 
 		message_text = self._format_clock_message()
-		if self._settings.get(["useM70"]):
+		if self._settings.get(["command"]) == "M70":
 			message = "M70 P{0} ({1})".format(self._settings.get(["displayTime"]), message_text)
 		else:
 			message = "M117 {0}".format(message_text)
@@ -94,15 +119,38 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 		self._logger.info("ClockOnConnectPlugin: " + message)
 
 	def _format_clock_message(self):
-		parts = [time.strftime("%H:%M:%S")]
+		parts = [self._strftime_setting("timeFormat", "%H:%M:%S")]
 		if self._settings.get(["showDate"]):
-			parts.append(time.strftime("%d.%m.%Y"))
+			parts.append(self._strftime_setting("dateFormat", "%d.%m.%Y"))
 
-		message = " ".join(parts)
+		separator = self._settings.get(["separator"])
+		if separator is None:
+			separator = " "
+		message = separator.join(parts)
+		message = "{0}{1}{2}".format(
+			self._settings.get(["prefix"]) or "",
+			message,
+			self._settings.get(["suffix"]) or ""
+		)
+		if self._settings.get_boolean(["uppercase"]):
+			message = message.upper()
+
 		display_width = self._get_int_setting("displayWidth", 20)
-		if display_width > len(message):
+		alignment = self._settings.get(["alignment"])
+		if display_width > len(message) and alignment == "center":
 			message = message.center(display_width)
+		elif display_width > len(message) and alignment == "right":
+			message = message.rjust(display_width)
+		elif display_width > len(message):
+			message = message.ljust(display_width)
 		return message
+
+	def _strftime_setting(self, key, fallback):
+		value = self._settings.get([key]) or fallback
+		try:
+			return time.strftime(value)
+		except (TypeError, ValueError):
+			return time.strftime(fallback)
 
 	def _get_int_setting(self, key, fallback):
 		try:

@@ -1,6 +1,17 @@
 <h4>ClockOnConnect Settings</h4>
 <form class="form-horizontal" id="settings_plugin_ClockOnConnect_form">
 	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.enabled"/> {{ _('Enable LCD clock updates') }}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.updateDuringPrint"/> {{ _('Keep updating while printing') }}</label>
+			<span class="help-block">{{ _('Disable this if your firmware or start/end G-code uses LCD messages during a print.') }}</span>
+		</div>
+	</div>
+	<div class="control-group">
 		<label class="control-label" for="ClockOnConnectDelay">{{ _('Start delay') }}</label>
 		<div class="controls">
 			<span class="input-append">
@@ -19,22 +30,13 @@
         </div>
     </div>
 	<div class="control-group">
-		<label class="control-label" for="ClockOnConnectDisplayWidth">{{ _('Display width') }}</label>
+		<label class="control-label" for="ClockOnConnectCommand">{{ _('Command') }}</label>
 		<div class="controls">
-			<span class="input-append">
-				<input type="number" min="8" step="1" class="input-mini" id="ClockOnConnectDisplayWidth" data-bind="value: settings.plugins.ClockOnConnect.displayWidth" />
-				<span class="add-on">chars</span>
-			</span>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="controls">
-			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.showDate"/> {{ _('Show date') }}</label>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="controls">
-			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.useM70"/> {{ _('Show message using M70') }}</label>
+			<select id="ClockOnConnectCommand" class="input-small" data-bind="value: settings.plugins.ClockOnConnect.command">
+				<option value="M117">M117</option>
+				<option value="M70">M70</option>
+			</select>
+			<span class="help-block">{{ _('M117 is the common LCD message command. M70 is available on some firmwares and can use a display timeout.') }}</span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -45,5 +47,69 @@
 				<span class="add-on">sec</span>
 			</span>
 		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectTimeFormat">{{ _('Time format') }}</label>
+		<div class="controls">
+			<input type="text" class="input-medium" id="ClockOnConnectTimeFormat" data-bind="value: settings.plugins.ClockOnConnect.timeFormat" />
+			<span class="help-block">{{ _('Uses Python strftime format, for example %H:%M:%S or %H:%M.') }}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.showDate"/> {{ _('Show date') }}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectDateFormat">{{ _('Date format') }}</label>
+		<div class="controls">
+			<input type="text" class="input-medium" id="ClockOnConnectDateFormat" data-bind="value: settings.plugins.ClockOnConnect.dateFormat" />
+			<span class="help-block">{{ _('Uses Python strftime format, for example %d.%m.%Y or %Y-%m-%d.') }}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectSeparator">{{ _('Time/date separator') }}</label>
+		<div class="controls">
+			<input type="text" class="input-small" id="ClockOnConnectSeparator" data-bind="value: settings.plugins.ClockOnConnect.separator" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectPrefix">{{ _('Prefix') }}</label>
+		<div class="controls">
+			<input type="text" class="input-medium" id="ClockOnConnectPrefix" data-bind="value: settings.plugins.ClockOnConnect.prefix" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectSuffix">{{ _('Suffix') }}</label>
+		<div class="controls">
+			<input type="text" class="input-medium" id="ClockOnConnectSuffix" data-bind="value: settings.plugins.ClockOnConnect.suffix" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectDisplayWidth">{{ _('Display width') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="1" step="1" class="input-mini" id="ClockOnConnectDisplayWidth" data-bind="value: settings.plugins.ClockOnConnect.displayWidth" />
+				<span class="add-on">chars</span>
+			</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectAlignment">{{ _('Alignment') }}</label>
+		<div class="controls">
+			<select id="ClockOnConnectAlignment" class="input-small" data-bind="value: settings.plugins.ClockOnConnect.alignment">
+				<option value="left">{{ _('Left') }}</option>
+				<option value="center">{{ _('Center') }}</option>
+				<option value="right">{{ _('Right') }}</option>
+			</select>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.uppercase"/> {{ _('Uppercase output') }}</label>
+		</div>
+	</div>
+	<div class="form-actions">
+		<button type="button" class="btn btn-danger" data-bind="click: resetAll">{{ _('Reset all') }}</button>
 	</div>
 </form>
