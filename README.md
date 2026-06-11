@@ -112,4 +112,4 @@ The text is centered for a 20-character display.
 
 ## Get Help
 
-Please use the GitHub issue tracker if you run into problems or want to suggest improvements.
+Please use the GitHub issue tracker if you run into problems or want to suggest improvements. 
