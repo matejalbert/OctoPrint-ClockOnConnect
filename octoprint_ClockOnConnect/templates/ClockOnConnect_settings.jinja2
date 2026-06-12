@@ -52,7 +52,7 @@
 		<label class="control-label" for="ClockOnConnectTimeFormat">{{ _('Time format') }}</label>
 		<div class="controls">
 			<input type="text" class="input-medium" id="ClockOnConnectTimeFormat" data-bind="value: settings.plugins.ClockOnConnect.timeFormat" />
-			<span class="help-block">{{ _('Uses Python strftime format, for example %H:%M:%S or %H:%M.') }}</span>
+			<span class="help-block">{{ _('Uses Python strftime format, for example %%H:%%M:%%S or %%H:%%M.') }}</span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -64,7 +64,7 @@
 		<label class="control-label" for="ClockOnConnectDateFormat">{{ _('Date format') }}</label>
 		<div class="controls">
 			<input type="text" class="input-medium" id="ClockOnConnectDateFormat" data-bind="value: settings.plugins.ClockOnConnect.dateFormat" />
-			<span class="help-block">{{ _('Uses Python strftime format, for example %d.%m.%Y or %Y-%m-%d.') }}</span>
+			<span class="help-block">{{ _('Uses Python strftime format, for example %%d.%%m.%%Y or %%Y-%%m-%%d.') }}</span>
 		</div>
 	</div>
 	<div class="control-group">
