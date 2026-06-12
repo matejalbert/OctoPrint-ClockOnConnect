@@ -20,7 +20,9 @@ $(function() {
             prefix: "",
             suffix: "",
             alignment: "center",
-            uppercase: false
+            uppercase: false,
+            use12h: false,
+            showPrintTime: false
         };
 
         self.resetAll = function() {

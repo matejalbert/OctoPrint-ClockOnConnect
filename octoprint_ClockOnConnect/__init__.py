@@ -16,6 +16,7 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 		self._timer = None
 		self._timer_lock = threading.Lock()
 		self._shutting_down = False
+		self._print_start_time = None
 						
 	##~~ SettingsPlugin mixin
 	
@@ -35,7 +36,9 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 			prefix="",
 			suffix="",
 			alignment="center",
-			uppercase=False
+			uppercase=False,
+			use12h=False,
+			showPrintTime=False
 		)
 
 	def on_settings_save(self, data):
@@ -64,6 +67,10 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 	##-- EventHandler mixin 
 	
 	def on_event(self, event, payload):
+		if event == "PrintStarted":
+			self._print_start_time = time.time()
+		elif event in ("PrintDone", "PrintFailed", "PrintCancelled"):
+			self._print_start_time = None
 		if event in ("Connected", "ConnectivityChanged", "PrintStarted", "PrintDone", "PrintFailed", "PrintCancelled"):
 			self._schedule_clock_update(self._get_int_setting("delay", 0), allow_zero=True)
 			
@@ -119,13 +126,21 @@ class ClockOnConnectPlugin(octoprint.plugin.SettingsPlugin,
 		self._logger.info("ClockOnConnectPlugin: " + message)
 
 	def _format_clock_message(self):
-		parts = [self._strftime_setting("timeFormat", "%H:%M:%S")]
-		if self._settings.get(["showDate"]):
-			parts.append(self._strftime_setting("dateFormat", "%d.%m.%Y"))
+		if self._settings.get_boolean(["showPrintTime"]) and self._printer.is_printing() and self._print_start_time:
+			elapsed = int(time.time() - self._print_start_time)
+			hours, remainder = divmod(elapsed, 3600)
+			minutes, seconds = divmod(remainder, 60)
+			parts = ["{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds)]
+		else:
+			if self._settings.get_boolean(["use12h"]):
+				time_str = time.strftime("%I:%M:%S %p")
+			else:
+				time_str = self._strftime_setting("timeFormat", "%H:%M:%S")
+			parts = [time_str]
+			if self._settings.get(["showDate"]):
+				parts.append(self._strftime_setting("dateFormat", "%d.%m.%Y"))
 
-		separator = self._settings.get(["separator"])
-		if separator is None:
-			separator = " "
+		separator = self._settings.get(["separator"]) or " "
 		message = separator.join(parts)
 		message = "{0}{1}{2}".format(
 			self._settings.get(["prefix"]) or "",

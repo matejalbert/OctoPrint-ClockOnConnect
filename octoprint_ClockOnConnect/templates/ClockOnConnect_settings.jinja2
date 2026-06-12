@@ -1,34 +1,23 @@
 <h4>ClockOnConnect Settings</h4>
 <form class="form-horizontal" id="settings_plugin_ClockOnConnect_form">
+	<h5>{{ _('Čas') }}</h5>
 	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectTimeFormat">{{ _('Time format') }}</label>
 		<div class="controls">
-			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.enabled"/> {{ _('Enable LCD clock updates') }}</label>
+			<input type="text" class="input-medium" id="ClockOnConnectTimeFormat" data-bind="value: settings.plugins.ClockOnConnect.timeFormat" />
+			<span class="help-block">{{ _('Uses Python strftime format, for example %%H:%%M:%%S or %%H:%%M.') }}</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<div class="controls">
-			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.updateDuringPrint"/> {{ _('Keep updating while printing') }}</label>
-			<span class="help-block">{{ _('Disable this if your firmware or start/end G-code uses LCD messages during a print.') }}</span>
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.use12h"/> {{ _('Use 12-hour format (AM/PM)') }}</label>
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label" for="ClockOnConnectDelay">{{ _('Start delay') }}</label>
 		<div class="controls">
-			<span class="input-append">
-				<input type="number" min="0" step="1" class="input-mini" id="ClockOnConnectDelay" data-bind="value: settings.plugins.ClockOnConnect.delay" />
-				<span class="add-on">sec</span>
-			</span>
-        </div>
-    </div>
-	<div class="control-group">
-		<label class="control-label" for="ClockOnConnectUpdateInterval">{{ _('Update interval') }}</label>
-		<div class="controls">
-			<span class="input-append">
-				<input type="number" min="1" step="1" class="input-mini" id="ClockOnConnectUpdateInterval" data-bind="value: settings.plugins.ClockOnConnect.updateInterval" />
-				<span class="add-on">sec</span>
-			</span>
-        </div>
-    </div>
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.showPrintTime"/> {{ _('Show elapsed print time instead of clock during print') }}</label>
+		</div>
+	</div>
 	<div class="control-group">
 		<label class="control-label" for="ClockOnConnectCommand">{{ _('Command') }}</label>
 		<div class="controls">
@@ -48,13 +37,8 @@
 			</span>
 		</div>
 	</div>
-	<div class="control-group">
-		<label class="control-label" for="ClockOnConnectTimeFormat">{{ _('Time format') }}</label>
-		<div class="controls">
-			<input type="text" class="input-medium" id="ClockOnConnectTimeFormat" data-bind="value: settings.plugins.ClockOnConnect.timeFormat" />
-			<span class="help-block">{{ _('Uses Python strftime format, for example %%H:%%M:%%S or %%H:%%M.') }}</span>
-		</div>
-	</div>
+	<hr>
+	<h5>{{ _('Datum') }}</h5>
 	<div class="control-group">
 		<div class="controls">
 			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.showDate"/> {{ _('Show date') }}</label>
@@ -73,18 +57,8 @@
 			<input type="text" class="input-small" id="ClockOnConnectSeparator" data-bind="value: settings.plugins.ClockOnConnect.separator" />
 		</div>
 	</div>
-	<div class="control-group">
-		<label class="control-label" for="ClockOnConnectPrefix">{{ _('Prefix') }}</label>
-		<div class="controls">
-			<input type="text" class="input-medium" id="ClockOnConnectPrefix" data-bind="value: settings.plugins.ClockOnConnect.prefix" />
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="ClockOnConnectSuffix">{{ _('Suffix') }}</label>
-		<div class="controls">
-			<input type="text" class="input-medium" id="ClockOnConnectSuffix" data-bind="value: settings.plugins.ClockOnConnect.suffix" />
-		</div>
-	</div>
+	<hr>
+	<h5>{{ _('Vzhled') }}</h5>
 	<div class="control-group">
 		<label class="control-label" for="ClockOnConnectDisplayWidth">{{ _('Display width') }}</label>
 		<div class="controls">
@@ -107,6 +81,49 @@
 	<div class="control-group">
 		<div class="controls">
 			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.uppercase"/> {{ _('Uppercase output') }}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectPrefix">{{ _('Prefix') }}</label>
+		<div class="controls">
+			<input type="text" class="input-medium" id="ClockOnConnectPrefix" data-bind="value: settings.plugins.ClockOnConnect.prefix" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectSuffix">{{ _('Suffix') }}</label>
+		<div class="controls">
+			<input type="text" class="input-medium" id="ClockOnConnectSuffix" data-bind="value: settings.plugins.ClockOnConnect.suffix" />
+		</div>
+	</div>
+	<hr>
+	<h5>{{ _('Obecné') }}</h5>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.enabled"/> {{ _('Enable LCD clock updates') }}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<label class="checkbox"><input type="checkbox" data-bind="checked: settings.plugins.ClockOnConnect.updateDuringPrint"/> {{ _('Keep updating while printing') }}</label>
+			<span class="help-block">{{ _('Disable this if your firmware or start/end G-code uses LCD messages during a print.') }}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectDelay">{{ _('Start delay') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="0" step="1" class="input-mini" id="ClockOnConnectDelay" data-bind="value: settings.plugins.ClockOnConnect.delay" />
+				<span class="add-on">sec</span>
+			</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="ClockOnConnectUpdateInterval">{{ _('Update interval') }}</label>
+		<div class="controls">
+			<span class="input-append">
+				<input type="number" min="1" step="1" class="input-mini" id="ClockOnConnectUpdateInterval" data-bind="value: settings.plugins.ClockOnConnect.updateInterval" />
+				<span class="add-on">sec</span>
+			</span>
 		</div>
 	</div>
 	<div class="form-actions">
