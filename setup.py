@@ -14,14 +14,14 @@ plugin_package = "octoprint_ClockOnConnect"
 plugin_name = "OctoPrint-ClockOnConnect"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
-plugin_version = "0.2.0"
+plugin_version = "0.2.2"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
 plugin_description = """A customizable OctoPrint plugin that keeps the current time visible on the printer LCD."""
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
-plugin_author = "matejalbert"
+plugin_author = "Matěj Albert"
 
 # The plugin's author's mail address.
 plugin_author_email = "matej.albert11@gmail.com"
