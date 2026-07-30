@@ -4,8 +4,6 @@ ClockOnConnect is an OctoPrint plugin that keeps the printer LCD updated with a 
 
 It can show the current time, optionally add the date, format the text for your display width, and choose whether the clock should continue updating while a print is running.
 
-![ClockOnConnect settings screenshot](screenshot.jpg)
-
 ## Features
 
 - Sends the current time to the printer display through `M117` or `M70`.
